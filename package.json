@@ -1,0 +1,15 @@
+{
+  "name": "rene-outreach-hub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-assisted business outreach prototype for Rene VA Services (sample data only).",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test \"tests/*.test.js\"",
+    "scan-secrets": "node scripts/secret-scan.js"
+  }
+}

@@ -1,0 +1,101 @@
+:root {
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --text: #1c2430;
+  --muted: #5b6676;
+  --primary: #1f5eff;
+  --border: #dde3ec;
+  --safe-bg: #e6f6ec;
+  --safe-text: #14663a;
+  --warn-bg: #fdecec;
+  --warn-text: #8a1c1c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161d;
+    --surface: #1a2029;
+    --text: #e8edf4;
+    --muted: #9aa6b6;
+    --primary: #6b93ff;
+    --border: #2b3441;
+    --safe-bg: #123322;
+    --safe-text: #7fe0a8;
+    --warn-bg: #3a1717;
+    --warn-text: #ffb4b4;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand { font-weight: 700; }
+.brand span { color: var(--muted); font-weight: 500; }
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-safe { background: var(--safe-bg); color: var(--safe-text); }
+.badge-warn { background: var(--warn-bg); color: var(--warn-text); }
+
+.nav {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.nav a {
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.nav a.active, .nav a:hover { color: var(--primary); background: var(--bg); }
+.nav a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+.card h1 { margin-top: 0; font-size: 1.4rem; }
+.note { color: var(--muted); font-size: 0.9rem; }
+
+@media (min-width: 720px) {
+  .topbar, .nav { padding-left: 24px; padding-right: 24px; }
+  main { padding: 24px; }
+}

@@ -1,0 +1,21 @@
+# Secrets - NEVER commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local database files (may contain real prospect data later)
+data/*.db
+data/*.db-*
+data/*.sqlite
+data/*.sqlite-*
+
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+
+# Logs and OS files
+*.log
+.DS_Store
