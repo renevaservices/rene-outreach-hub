@@ -2,12 +2,16 @@ import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createApp } from '../src/server.js';
 import { loadConfig } from '../src/config.js';
+import { openDatabase } from '../src/db.js';
+import { seedSampleData } from '../src/seed.js';
 
 let server;
 let base;
 
 before(async () => {
-  server = createApp(loadConfig({}, '/nonexistent-folder'));
+  const db = openDatabase(':memory:');
+  seedSampleData(db);
+  server = createApp(loadConfig({}, '/nonexistent-folder'), db);
   await new Promise((done) => server.listen(0, '127.0.0.1', done));
   base = `http://127.0.0.1:${server.address().port}`;
 });

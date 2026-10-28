@@ -3,6 +3,14 @@ import { readFile } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadConfig } from './config.js';
+import { openDatabase } from './db.js';
+import { seedSampleData } from './seed.js';
+import {
+  ValidationError,
+  listFilterOptions,
+  listProspects,
+  parseListParams,
+} from './prospects.js';
 
 const PUBLIC_DIR = resolve(fileURLToPath(new URL('../public', import.meta.url)));
 
@@ -58,7 +66,7 @@ async function serveStatic(req, res, pathname) {
   }
 }
 
-export function createApp(config) {
+export function createApp(config, db) {
   return createServer(async (req, res) => {
     const url = new URL(req.url ?? '/', 'http://localhost');
     const { pathname } = url;
@@ -77,6 +85,21 @@ export function createApp(config) {
       });
     }
 
+    if (pathname === '/api/prospects') {
+      try {
+        const params = parseListParams(url.searchParams);
+        return sendJson(res, 200, listProspects(db, params));
+      } catch (error) {
+        if (error instanceof ValidationError) return sendJson(res, 400, { error: error.message });
+        console.error('Prospect list failed:', error.message);
+        return sendJson(res, 500, { error: 'Something went wrong.' });
+      }
+    }
+
+    if (pathname === '/api/prospects/filters') {
+      return sendJson(res, 200, listFilterOptions(db));
+    }
+
     if (pathname.startsWith('/api/')) {
       return sendJson(res, 404, { error: 'Not found' });
     }
@@ -87,7 +110,10 @@ export function createApp(config) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const config = loadConfig();
-  const server = createApp(config);
+  const db = openDatabase(config.databasePath);
+  const added = seedSampleData(db); // only the first time; fictional data only
+  if (added > 0) console.log(`Added ${added} fictional sample businesses to a new database.`);
+  const server = createApp(config, db);
   server.listen(config.port, config.host, () => {
     console.log(`Rene Outreach Hub running at http://${config.host}:${config.port}`);
     console.log('Dry-run mode is ON: no real emails can be sent.');

@@ -95,6 +95,12 @@ main {
 .card h1 { margin-top: 0; font-size: 1.4rem; }
 .note { color: var(--muted); font-size: 0.9rem; }
 
+/* Small phones: tighter menu so all four items fit without sideways scrolling. */
+@media (max-width: 480px) {
+  .nav { justify-content: space-between; padding: 8px; gap: 0; }
+  .nav a { padding: 10px 8px; font-size: 0.9rem; }
+}
+
 @media (min-width: 720px) {
   .topbar, .nav { padding-left: 24px; padding-right: 24px; }
   main { padding: 24px; }

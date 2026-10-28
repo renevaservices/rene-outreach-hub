@@ -4,8 +4,8 @@ A small web app for Rene VA Services to manage business outreach: a prospect
 directory, contact records, AI-assisted message drafts, an approve-before-send
 step and a follow-up tracker.
 
-**Current status: Stage 1 (project skeleton).** It uses sample data only.
-It cannot send emails and it holds no real prospect data.
+**Current status: Stage 2 (prospect directory).** It uses fictional sample data
+only. It cannot send emails and it holds no real prospect data.
 
 ## Safety rules built in
 
@@ -34,7 +34,20 @@ reason we may move to a hosted database (Supabase) later.
 4. Open <http://127.0.0.1:3000> in your browser.
    You should see a green "Dry-run: no emails sent" badge.
 
+The first time it starts, it creates a small database file (`data/outreach.db`) and fills
+it with 24 **fictional** sample businesses. That file is blocked from GitHub by `.gitignore`.
+Open the **Prospects** tab to search and filter them.
+
 Stop it with `Ctrl + C`.
+
+To rebuild the sample data from scratch: `npm run seed -- --reset`
+(this only replaces sample rows, never rows you added yourself).
+
+### About the sample data
+
+Every sample business uses a made-up name, a web address ending in `.example` (a
+reserved ending that can never belong to a real company) and an obviously fake phone
+number. Tests check this, so real-looking data can't slip in by accident.
 
 ## Check that it works
 
@@ -43,12 +56,19 @@ npm test              # runs the automated tests
 npm run scan-secrets  # checks nothing secret is about to be uploaded
 ```
 
+There is also an optional check that opens the real app in a browser at desktop and phone
+sizes: `python3 tests/browser/ui_check.py`. It needs Python with Playwright installed
+(instructions at the top of that file) and is not needed to run the app.
+
 ## Project map
 
 | Folder / file | What it is |
 |---|---|
 | `src/server.js` | The backend web server |
 | `src/config.js` | Reads settings and enforces dry-run mode |
+| `src/db.js` | Database tables |
+| `src/seed.js` | Fictional sample data |
+| `src/prospects.js` | Search, filter and paging logic |
 | `public/` | The pages you see in the browser (HTML, CSS, JS) |
 | `scripts/secret-scan.js` | The secret scanner |
 | `tests/` | Automated tests |
@@ -56,8 +76,8 @@ npm run scan-secrets  # checks nothing secret is about to be uploaded
 
 ## Build plan
 
-1. Skeleton, safety switch, secret scan (this stage)
-2. Sample database and prospect directory with search and filters
+1. Skeleton, safety switch, secret scan (done)
+2. Sample database and prospect directory with search and filters (done)
 3. Contact records
 4. Dashboard
 5. AI drafting (mock first, real AI only after approval)

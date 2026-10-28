@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning src/server.js",
     "test": "node --disable-warning=ExperimentalWarning --test \"tests/*.test.js\"",
-    "scan-secrets": "node scripts/secret-scan.js"
+    "seed": "node --disable-warning=ExperimentalWarning src/seed.js",
+    "scan-secrets":"node scripts/secret-scan.js"
   }
 }

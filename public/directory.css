@@ -1,0 +1,101 @@
+/* Prospect directory styles. Colours come from the variables in styles.css. */
+
+h1 { font-size: 1.4rem; margin: 0 0 12px; }
+.muted { color: var(--muted); font-size: 0.85rem; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Filters */
+.filters {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.filter-panel summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.filter-panel summary::-webkit-details-marker { display: none; }
+.filter-panel summary::after { content: "▾"; margin-left: 8px; color: var(--muted); }
+.filter-panel[open] summary::after { content: "▴"; }
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: end;
+  margin-top: 8px;
+}
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.field input, .field select {
+  min-height: 44px;
+  padding: 8px 10px;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.field input:focus-visible, .field select:focus-visible,
+.button:focus-visible, a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.button {
+  min-height: 44px;
+  padding: 8px 16px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.button.secondary { color: var(--text); background: var(--surface); border-color: var(--border); }
+.button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.summary { margin: 8px 2px; color: var(--muted); font-size: 0.9rem; }
+.error { color: var(--warn-text); background: var(--warn-bg); border-color: transparent; }
+.empty { text-align: center; padding: 28px 16px; }
+
+/* Table (desktop) */
+.prospects-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.prospects-table th, .prospects-table td { text-align: left; padding: 10px 14px; vertical-align: top; }
+.prospects-table thead th { font-size: 0.8rem; color: var(--muted); border-bottom: 1px solid var(--border); background: var(--bg); }
+.prospects-table tbody tr + tr td { border-top: 1px solid var(--border); }
+.site { color: var(--primary); font-size: 0.85rem; word-break: break-all; }
+
+.status { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+.status-new { color: var(--primary); }
+.status-replied { background: var(--safe-bg); color: var(--safe-text); border-color: transparent; }
+.status-follow_up { background: #fff3d6; color: #7a5200; border-color: transparent; }
+.status-do_not_contact { background: var(--warn-bg); color: var(--warn-text); border-color: transparent; }
+@media (prefers-color-scheme: dark) { .status-follow_up { background: #3a2f10; color: #ffd98a; } }
+
+.pager { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 16px 0; }
+
+/* Phones: each table row becomes a card, and each cell shows its own label. */
+@media (max-width: 719px) {
+  .prospects-table, .prospects-table tbody, .prospects-table tr, .prospects-table td { display: block; width: 100%; }
+  .prospects-table { background: none; border: 0; }
+  .prospects-table thead { display: none; }
+  .prospects-table tr { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; padding: 6px 0; }
+  .prospects-table tbody tr + tr td { border-top: 0; }
+  .prospects-table td { padding: 6px 14px; }
+  .prospects-table td::before { content: attr(data-label); display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+  .cell-name strong { font-size: 1.05rem; }
+}
+
+/* Tablet and desktop: filters are always shown, so the toggle is hidden. */
+@media (min-width: 720px) {
+  .filter-panel summary { display: none; }
+  .filter-grid { grid-template-columns: repeat(3, 1fr); margin-top: 0; }
+}
+@media (min-width: 1000px) {
+  .filter-grid { grid-template-columns: repeat(6, 1fr); }
+}
